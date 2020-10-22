@@ -1,0 +1,19 @@
+<table class="table">
+    <tbody >
+        <tr>
+            <th class="table-warning">CORREO</th>
+            <th class="table-warning">ESPECIALIDADES</th>
+            <th class="table-warning" colspan="2">ESTADO</th>
+        </tr>
+        <tr *ngFor="let profesional of this.profesionales">
+            <th class="table-warning">{{profesional.correo}}</th>
+            <th class="table-warning">{{profesional.especialidades}}</th>
+            <!--Tratar de que no se vea el true or false sino un checkbox-->
+            <th class="table-warning">{{profesional.activo}}</th>
+            <th class="table-warning"><button type="button" class="btn btn-outline-dark" id="id" (click)="Habilitar(profesional)">Habilitar</button></th>
+        </tr>
+        <tr class="table-warning">
+          <th colspan="4"><button type="button" class="btn btn-outline-dark" (click)="Volver()">Volver</button></th>
+        </tr>
+    </tbody>
+</table>

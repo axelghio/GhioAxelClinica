@@ -1,0 +1,24 @@
+<table class="table">
+    <tr>
+      <th class="table-primary">Correo</th>
+      <th class="table-success">Contraseña</th>
+      <th class="table-danger">#</th>
+    </tr>
+    <tr>
+      <th class="table-info"><input type="text" class="form-control bg-transparent btn-outline-dark" placeholder="Email" [(ngModel)]="usuario"  name="uname" required></th>
+      <th class="table-primary"><input type="password" class="form-control bg-transparent btn-outline-dark" placeholder="password" [(ngModel)]="clave" name="psw" required></th>
+      <th class="table-warning"><button type="button" class="btn btn-outline-dark" (click)="MostrarEsconderBTNS()">Users</button></th>
+    </tr>
+    <tr>
+      <th class="table-success"><button type="button" class="btn btn-outline-dark" *ngIf="logeando"  (click)="Login()">Conectarse</button></th>
+      <th class="table-info"><button type="button" class="btn btn-outline-dark" (click)="Registrar()">Registrarse</button></th>
+      <th class="table-success">
+        <button type="button" id="btnPredefinidos1" class="btn btn-outline-danger" (click)="User('paciente')">paciente</button>
+        <button type="button" id="btnPredefinidos2" class="btn btn-outline-secondary" (click)="User('profesional')">profesional</button>
+        <button type="button" id="btnPredefinidos3" class="btn btn-outline-dark" (click)="User('admin')">admin</button>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="3" class="table-secondary">{{mensaje}}</th>
+    </tr>
+  </table>

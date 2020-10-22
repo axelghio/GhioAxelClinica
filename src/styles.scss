@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/bootstrap';
+
+html{
+    display: block;
+    margin-top: 6%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    background-repeat: no-repeat;
+    background-image: url('../src/assets/img/log-and-reg_Background.png');
+    background-color: lightblue;
+}

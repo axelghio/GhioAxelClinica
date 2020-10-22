@@ -1,0 +1,83 @@
+<table class="table" id="table1">
+    <tr>
+      <th class="table-warning"><button type="button" class="btn btn-outline-dark" id="btnPacientes" (click)="User('paciente')">Paciente</button></th>
+      <th class="table-danger"><button type="button" class="btn btn-outline-dark" id="btnProfesional" (click)="User('profesional')">Profesional</button></th>
+      <th class="table-primary"><button type="button" class="btn btn-outline-dark" id="btnVolver" (click)="VolverInicio()">Cancelar</button></th>
+    </tr>
+  </table>
+  <div class="Registro">
+    <table class="table">
+      <div *ngIf="this.opcion === 'paciente' then thenBlockPaciente"></div>
+      <ng-template #thenBlockPaciente>
+        <tr>
+          <th colspan="2" class="table-primary"><h1>REGISTRO PARA PACIENTES</h1></th>
+        </tr>
+        <tr> 
+          <th colspan="2" class="table-warning"><input type="text" placeholder="Ingrese Nombre" [(ngModel)]='nombre'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-success"><input type="text" placeholder="Ingrese Apellido" [(ngModel)]='apellido'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-danger"><input type="text" placeholder="Ingrese Correo" [(ngModel)]='correo'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-success"><input type="password" placeholder="Ingrese Contraseña" [(ngModel)]='clave'></th>
+        </tr>
+        <tr>
+          <th class="table-primary"><label class="foto-1-label" for="customFileLang">Seleccione Foto 1</label></th>
+          <th class="table-warning"><input type="file" (change)="TomoFoto($event, 1)" class="foto-1-input" id="customFileLang1" lang="es"></th>
+        </tr>
+        <tr>
+          <th class="table-danger"><label class="foto-2-label" for="customFileLang">Seleccione Foto 2</label></th>
+          <th class="table-warning"><input type="file" (change)="TomoFoto($event, 2)" class="foto-2-input" id="customFileLang2" lang="es"></th>
+        </tr>
+        <tr>
+          <th class="table-success"><button style="margin-left: 120%;" type="button" class="btn btn-outline-dark" (click)="Register()">Registrarse</button></th>
+          <th class="table-success"><button type="button" class="btn btn-outline-dark" (click)="Volver()">Volver</button>
+          </th>
+        </tr>
+      </ng-template>
+    </table>
+    <table class="table">
+      <div *ngIf="this.opcion === 'profesional' then thenBlockProfesional"></div>
+      <ng-template #thenBlockProfesional>
+        <tr>
+          <th colspan="2" class="table-warning"><h1>REGISTRO PARA PROFESIONALES</h1></th>
+        </tr>
+        <tr> 
+          <th colspan="2" class="table-primary"><input type="text" placeholder="Ingrese Nombre" [(ngModel)]='nombre'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-danger"><input type="text" placeholder="Ingrese Apellido" [(ngModel)]='apellido'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-warning"><input type="text" placeholder="Ingrese Correo" [(ngModel)]='correo'></th>
+        </tr>
+        <tr>
+          <th colspan="2" class="table-success"><input type="password" placeholder="Ingrese Contraseña" [(ngModel)]='clave'></th>
+        </tr>
+        <tr>
+          <th class="table-danger"><label class="foto-1-label" for="customFileLang">Seleccione Foto 1</label></th>
+          <th class="table-primary"><input type="file" class="foto-1-input" id="customFileLang" lang="es"></th>
+        </tr>
+        <tr>
+          <th class="table-primary"><label class="foto-2-label" for="customFileLang">Seleccione Foto 2</label></th>
+          <th class="table-warning"><input type="file" class="foto-2-input" id="customFileLang" lang="es"></th>
+        </tr>
+        <tr>
+          <th class="table-success"><input id="inputEspecialidad" type="text" placeholder="Especialidad" [(ngModel)]='agregoEspecialidad'></th>
+          <th class="table-danger"><button type="button" class="btn btn-outline-primary" (click)="AgregarEspecialidad()">Agregar</button></th>
+        </tr>
+        <ul class="lista-Especialidades">
+          <div *ngFor="let item of especialidad">
+            <li>{{item}}</li>
+          </div>
+        </ul>
+        <tr>
+          <th class="table-success"><button type="button" class="btn btn-outline-danger" (click)="Volver()">Volver</button></th>
+          <th class="table-warning"><button type="button" class="btn btn-outline-dark" (click)="Register()">REGISTRARSE</button></th>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
