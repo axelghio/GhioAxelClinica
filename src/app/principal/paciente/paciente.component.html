@@ -1,18 +1,232 @@
-<!--Monstrar FOTO-->
-<div class="content-fotos">
-    <div *ngFor="let item of usuario">
-        <h5>Nombre: {{item.nombre}}</h5>
-        <h5>Apellido: {{item.apellido}}</h5>
-        <table>
-            <tr>
-                <th>
-                    <img src="{{item.foto1}}" height="220" >
-                </th>
-                <th>
-                    <img src="{{item.foto2}}" height="220" >
-                </th>
-            </tr>
-        </table>
+<!--Mostrar Turnos-->
+<div class="buttonsTop" id="buttonsTop">
+    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-success" (click)="Opciones('turno')"><h4>Sacar Turno</h4></button>
+        <button type="button" class="btn btn-danger" (click)="Opciones('estadoTurno')"><h4>Estado Turno</h4></button>
+        <button type="button" class="btn btn-warning" (click)="Opciones('cancelarTurno')"><h4>Cancelar Turno</h4></button>
+        <button type="button" class="btn btn-primary" (click)="Opciones('resenia')"><h4>Rese&ntilde;a</h4></button>
     </div>
-    <button type="button" class="btn btn-outline-dark" (click)="Volver()">Volver</button>
+    <div id="btnDesconectar">
+        <button type="button" class="btn btn-dark" (click)="Desconectar()">Desconectar</button>
+    </div>
 </div>
+<div *ngIf="this.opcion === 'turno' then turnos"></div>
+<ng-template #turnos>
+<div class="filter" id="filter">
+    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-warning" (click)="OpcionesFilter('apellido')"><h4>Apellido</h4></button>
+        <button type="button" class="btn btn-primary" (click)="OpcionesFilter('especialidad')"><h4>Especialidad</h4></button>
+        <button type="button" class="btn btn-success" (click)="OpcionesFilter('fecha')"><h4>fecha</h4></button>
+    </div>
+    <div id="btnVolver">
+        <button type="button" class="btn btn-dark" (click)="Volver()">Volver</button>
+    </div>
+</div>
+<!--Mostrar PROFESIONALES-->
+<div *ngIf="this.opcionFilter === 'apellido' then filtroApellido"></div>
+<ng-template #filtroApellido></ng-template>
+    <table>
+        <thead>
+            <tr>
+               <th>Apellido:</th>
+               <th>Nombre:</th>
+               <th>Especialidades:</th>
+            </tr>
+        </thead>
+        <tbody>
+               <tr *ngFor="let item of usuariosFilter">
+                   <td>
+                       <h5>{{item.apellido}}</h5>
+                   </td>
+                    <td>
+                       <h5>{{item.nombre}}</h5>
+                   </td>
+                   <td>
+                       <ul>
+                        <li *ngIf="item.especialidad[0] !=null then especialidad1"></li><ng-template #especialidad1>
+                            {{item.especialidad[0]}}
+                        </ng-template>
+                        <li *ngIf="item.especialidad[1] !=null then especialidad2"></li><ng-template #especialidad2>
+                            {{item.especialidad[1]}}
+                        </ng-template>
+                        <li *ngIf="item.especialidad[2] !=null then especialidad3"></li><ng-template #especialidad3>
+                            {{item.especialidad[2]}}
+                        </ng-template>
+                        <li *ngIf="item.especialidad[3] !=null then especialidad4"></li><ng-template #especialidad4>
+                            {{item.especialidad[3]}}
+                        </ng-template>
+                        <li *ngIf="item.especialidad[4] !=null then especialidad5"></li><ng-template #especialidad5>
+                            {{item.especialidad[4]}}
+                        </ng-template>
+                        <li *ngIf="item.especialidad[5] !=null then especialidad6"></li><ng-template #especialidad6>
+                            {{item.especialidad[5]}}
+                        </ng-template>
+                       </ul>
+                   </td>
+                   <td>
+                       <button type="button" class="btn btn-dark" (click)="SacarTurno(item)">Sacar turno</button>
+                   </td>
+               </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+<div *ngIf="this.pedirTurno == true then sacamosTurno"></div>
+<ng-template #sacamosTurno>
+<table>
+    <tr>
+        <th>Dr: 
+            <h5>{{this.apellido}}, {{this.nombre}}</h5>
+        </th>
+        <th>Dias: 
+            <ul *ngFor="let d of this.dias">
+                <li>{{d}}</li>
+            </ul>
+        </th>
+        <th>Horario: 
+            <ul *ngFor="let h of this.horarios2">
+                <li>{{h}}</li>
+            </ul>
+        </th>
+        <th>Especialidades:
+            <ul *ngFor="let e of this.especialidad">
+                <li>{{e}}</li>
+            </ul>
+        </th>
+    </tr>
+    <tr>
+        <label for="especialidad">Especialidad:</label>
+        <select name="especialidad" id="especialidad">
+            <option *ngFor="let e of this.especialidad">
+                {{e}}
+            </option>
+        </select>
+
+        <label for="especialidad">Dia:</label>
+        <input type="date" id="dia" name="trip.strart" value ="2020-11-22" min="2020-11-05" max="2020-11-20">
+
+        <label>Hora:</label>
+        <input id="hora" type="number" min="8" max="20">
+    </tr>
+    <tr>
+        <button type="button" class="btn btn-dark" (click)="Turno()">Pedir Turno</button>
+    </tr>
+</table>
+</ng-template>
+
+<div *ngIf="this.opcion === 'estadoTurno' then estadoTurno"></div>
+<ng-template #estadoTurno>
+    <table border="1">
+        <tr>
+            <th>
+                Apellido
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Dia
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+                Especialidad
+            </th>
+            <th>
+                Estado del Turno
+            </th>
+        </tr>
+        <tr *ngFor="let d of this.turnosEnlinea">
+            <th>
+                {{d.apellidoProf}}
+            </th>
+            <th>
+                {{d.nombreProf}}
+            </th>
+            <th>
+                {{d.dia}}
+            </th>
+            <th>
+                {{d.hora}}
+            </th>
+            <th>
+                {{d.especialidadElejida}}
+            </th>
+            <th>
+                {{d.estadoTurno}}
+            </th>
+        </tr>
+    </table>
+</ng-template>
+
+<div *ngIf="this.opcion === 'cancelarTurno' then thenBlockCancelTurnos"></div>
+<ng-template #thenBlockCancelTurnos>
+    <table border="1">
+        <tr>
+            <th>
+                Apellido
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Dia
+            </th>
+            <th>
+                Hora
+            </th>
+            <th>
+                Especialidad
+            </th>
+            <th>
+                Estado del Turno
+            </th>
+            <th>
+                #
+            </th>
+        </tr>
+        <tr *ngFor="let d of this.turnosEnlinea">
+            <th>
+                {{d.apellidoProf}}
+            </th>
+            <th>
+                {{d.nombreProf}}
+            </th>
+            <th>
+                {{d.dia}}
+            </th>
+            <th>
+                {{d.hora}}
+            </th>
+            <th>
+                {{d.especialidadElejida}}
+            </th>
+            <th>
+                {{d.estadoTurno}}
+            </th>
+            <th>
+                <button type="button" class="btn btn-dark" (click)="CancelarTurnos(d.idTurno)">CancelarTurno</button>
+            </th>
+        </tr>
+    </table>
+</ng-template>
+
+<div *ngIf="this.opcion === 'resenia' then resena"></div>
+<ng-template #resena>
+    <button type="button" class="btn btn-dark" (click)="this.Resenia('mostrar')">VER RESEÑAS</button>
+    <div *ngIf="this.opcionResena === 'mostrar' then resenaMostrar"></div>
+    <ng-template #resenaMostrar>
+    <table>
+        <tr>
+            <td>{{this.resenia}}</td>
+            <td><button type="button" class="btn btn-dark" (click)="this.Comentar()">COMENTAR RESEÑA</button></td>
+        </tr>
+    </table>
+    </ng-template>
+</ng-template>
+
+<div *ngIf="this.MensajePaciente != '' then mensajes"></div>
+<ng-template #mensajes>
+    <div id="mensaje">{{this.MensajePaciente}}<button type="button" class="btn btn-dark" (click)="this.BorrarMensaje()">x</button></div>
+</ng-template>

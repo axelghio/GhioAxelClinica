@@ -1,9 +1,11 @@
 export class Usuarios {
-    public email : string;
-    public contraseña : string;
+    public correo : string;
+    public clave : string;
     public perfil:string
-    public fotoUno:string;
-    public fotoDos:string;
+    public foto1:string;
+    public foto2:string;
     public nombre:string;
     public apellido:string;
+    public tipoUsuario:string;
+    public profesion: [];
 }

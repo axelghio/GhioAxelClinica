@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 //firebase
 import { FirebaseService } from "../../servicios/firebase.service";
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireStorage } from '@angular/fire/storage'
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-registro',
@@ -15,11 +15,18 @@ export class RegistroComponent implements OnInit {
 //variable para saber tipo de usuario.
 opcion: string;
 
+
+valueCaptcha: number;
+captcha: string;
+
+//mensajes
+mensaje: string;
+
 //datos para registrar usuarios.
-nombre: string;
-apellido: string;
-correo: string;
-clave: string;
+nombre: string = "";
+apellido: string = "";
+correo: string = "";
+clave: string = "";
 foto1: string;
 foto1File;
 foto2: string;
@@ -39,33 +46,82 @@ constructor(private authService: FirebaseService, private db: AngularFireDatabas
 
   Register(){
     if(this.opcion == "paciente"){
-      this.authService.register(this.correo, this.clave).then(response => {
-        this.authService.getCurrentUser().then((response: any) => {
-          this.SuboFoto(response.uid);
-          this.db.list('personas').set(response.uid, { nombre: this.nombre, apellido: this.apellido, correo:this.correo, clave: this.clave, foto1: this.foto1, foto2: this.foto2, id: response.uid });
-          this.VolverInicio();
-        });
-      }).catch(error => console.log(error));
+      if(this.correo !="" && this.clave !=""){
+        console.log("entre");
+        this.authService.register(this.correo, this.clave).then(response => {
+          this.authService.getCurrentUser().then((response: any) => {
+            this.SuboFoto(response.uid);
+            this.db.list('personas').set(response.uid, {tipoUsuario: this.opcion, nombre: this.nombre, apellido: this.apellido, correo:this.correo, clave: this.clave, foto1: this.foto1, foto2: this.foto2, id: response.uid });
+            this.VolverInicio();
+          });
+        }),(error: any) => {
+          switch (error.code) 
+          {
+            case 'auth/weak-password':
+              this.MostrarMsj('contraseña demaciado corta.');
+              break;
+            case 'auth/invalid-email':
+              this.MostrarMsj('formato de correo invalido.');
+              break;
+            case 'auth/wrong-password':
+              this.MostrarMsj('Contraseña incorrecta.');
+              break;
+            case 'auth/email-already-in-use':
+              this.MostrarMsj('Correo ya existente.')
+              break;
+            default:
+              this.MostrarMsj("Error:" + error);
+              break;
+          }
+        }
+      }
+      else
+      {
+        this.MostrarMsj("Hay campos vacios.");
+      }
     }
     else if(this.opcion == "profesional"){
-      this.authService.register(this.correo, this.clave).then(response => {
-        this.authService.getCurrentUser().then((response: any) => {
-          this.SuboFoto(response.uid);
-          this.db.list('personas').set(response.uid, { nombre: this.nombre, apellido: this.apellido, correo:this.correo, clave: this.clave, foto1: this.foto1, foto2: this.foto2, especialidad: this.especialidad, id: response.uid });
-          this.VolverInicio();
-        });
-      }).catch(error => console.log(error));
+      if(this.correo !="" && this.clave !=""){
+        this.authService.register(this.correo, this.clave).then(response => {
+          this.authService.getCurrentUser().then((response: any) => {
+            this.SuboFoto(response.uid);
+            this.db.list('personas').set(response.uid, {tipoUsuario: this.opcion, nombre: this.nombre, apellido: this.apellido, correo:this.correo, clave: this.clave, foto1: this.foto1, foto2: this.foto2, especialidad: this.especialidad, id: response.uid });
+            this.VolverInicio();
+          });
+        }),(error: any) => {
+          switch (error.code) 
+          {
+            case 'auth/weak-password':
+              this.MostrarMsj('contraseña demaciado corta.');
+              break;
+            case 'auth/invalid-email':
+              this.MostrarMsj('formato de correo invalido.');
+              break;
+            case 'auth/wrong-password':
+              this.MostrarMsj('Contraseña incorrecta.');
+              break;
+            case 'auth/email-already-in-use':
+              this.MostrarMsj('Correo ya existente.')
+              break;
+            default:
+              this.MostrarMsj("Error:" + error);
+              break;
+          }
+        }
+      }
+      else
+      {
+        this.MostrarMsj("Hay campos vacios.");
+      }
     }
   }
 
   TomoFoto(e, numero){
     if(numero == 1){
-      console.log("TomoFoto 1")
       this.foto1File = e.target.files[0];
     }
     else
     {
-      console.log("TomoFoto 2")
       this.foto2File = e.target.files[0];
     }
   }
@@ -101,6 +157,7 @@ constructor(private authService: FirebaseService, private db: AngularFireDatabas
     y.style.display = "none";
     var z = document.getElementById("table1");
     z.style.display = "none";
+    this.captchaRandom();
   }
 
   AgregarEspecialidad(){
@@ -124,5 +181,16 @@ constructor(private authService: FirebaseService, private db: AngularFireDatabas
   VolverInicio(){
     this.authService.logOutCurrentUser();
     this.router.navigate(['/']);
+  }
+
+  captchaRandom(){
+    this.valueCaptcha = Math.floor((Math.random() * 999999) + 1);
+  }
+
+  MostrarMsj(text:string){
+    setTimeout(() => {
+      this.mensaje ="";
+    }, 3000);
+    this.mensaje = text;
   }
 }

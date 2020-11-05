@@ -17,7 +17,7 @@ import { ProfesionalComponent } from './principal/profesional/profesional.compon
 import { PacienteComponent } from './principal/paciente/paciente.component';
 
 //Importamos el guard
-import { BlockGuard } from './guards/block.guard'
+import { BlockGuard } from './guards/block.guard';
 
 const routes: Routes = [
   {path: '', component: InicioComponent},

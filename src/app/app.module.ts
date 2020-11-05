@@ -15,16 +15,7 @@ import { ProfesionalComponent } from './principal/profesional/profesional.compon
 import { RegistroAdminComponent } from './principal/administrador/registroAdmin/registroAdmin.component';
 import { ActivarProfesionalComponent } from './principal/administrador/activarProfesional/activarProfesional.component';
 import { EspecialidadProfesionalComponent } from './principal/administrador/especialidadProfesional/especialidadProfesional.component';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAHgrc4chgFS8vK9cDy0DCdbVzLi_3pOok",
-  authDomain: "clinica-online-87dea.firebaseapp.com",
-  databaseURL: "https://clinica-online-87dea.firebaseio.com",
-  projectId: "clinica-online-87dea",
-  storageBucket: "clinica-online-87dea.appspot.com",
-  messagingSenderId: "735073213019",
-  appId: "1:735073213019:web:19b3253d9575c093087d7e"
-};
+import { environment } from './../environments/environment.prod';
 
 @NgModule({
   declarations: [
@@ -44,7 +35,7 @@ const firebaseConfig = {
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

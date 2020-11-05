@@ -2,24 +2,26 @@ import { Injectable } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { DatabaseReference } from '@angular/fire/database/interfaces';
+import { resolve } from 'dns';
+import { User } from 'firebase';
+import { Usuarios } from '../entidades/usuarios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
+  usuario: any;
+  turnos: any;
 
-  usuario: AngularFireList<any>;
+  constructor(public authFire: AngularFireAuth, private db: AngularFireDatabase) { }
 
-  constructor(private authFire: AngularFireAuth, private db: AngularFireDatabase) { }
-
-  //Funcion para registrar un usuario
   register(email: string, password: string)
   {
     return new Promise<any>((resolve, rejected) => {
       this.authFire.createUserWithEmailAndPassword(email, password).then((response: any) => {
         this.EnviarMailDeVerificacion();
         resolve(response);
-        //verificar que tipo de usuario es y guardar los datos en firedatabase.
       }).catch(error => console.log(error))
     });
   }
@@ -28,11 +30,6 @@ export class FirebaseService {
     return await (await this.authFire.currentUser).sendEmailVerification(); 
   }
 
-  //Crear funcion para enviar la verificacion por email.
-
-  //Crear funcion para preguntar si esta verificcada la cuenta.
-
-  //crear el login con redireccion y verificacion de cuenta.
   login(email:string, password:string)
   {
     return new Promise((resolve, rejected)=>{
@@ -43,17 +40,25 @@ export class FirebaseService {
   }
 
   //devolver usuario de la db
-  traerUsuario(){
+  traerUsuarios(){
     return this.usuario = this.db.list("personas");
   }
 
   //devolver el usuario logeado actualmente.
   getCurrentUser() {
-    return this.authFire.currentUser;
+    return this.authFire.currentUser
   }
 
   //desconectar usuario.
   logOutCurrentUser() {
     this.authFire.signOut();
+  }
+
+  update(key, data){
+    this.db.list("personas").update(key, data);
+  }
+
+  traerTurnos(){
+    return this.turnos = this.db.list("turnos");
   }
 }

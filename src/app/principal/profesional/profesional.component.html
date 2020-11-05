@@ -2,83 +2,246 @@
     <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-success" (click)="Horarios()"><h4>Horarios</h4></button>
         <button type="button" class="btn btn-warning" (click)="Turnos()"><h4>Turnos</h4></button>
-        <button type="button" class="btn btn-primary" (click)="Atender()"><h4>Atender Turno</h4></button>
+        <button type="button" class="btn btn-primary" (click)="AtenderTurno()"><h4>Atender Turno</h4></button>
+        <button id="btnDesconectar" type="button" class="btn-dark" (click)="Desconectar()">Deslogear</button>
     </div>
     <div>
-        <button id="btnVolver" type="button" class="btn-dark" (click)="Volver()">VOLVER</button>
     </div>
 </div>
 <div class="background2" id="mostrarHorarios">
-    <div class="Text">
-        <h1>SELECCIONE SUS DIAS LABORALES</h1>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionL" name="customRadioInline1" class="custom-control-input" checked>
-        <label class="custom-control-label" for="customRadioInline1">L</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionM" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline2">M</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionX" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline3">X</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionJ" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline4">J</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionV" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline5">V</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-        <input type="checkbox" id="opcionS" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline6">S</label>
-    </div>
-    <div class="horario">
-        <h1>SELECCIONE SUS HORARIOS LABORALES</h1>
-    </div>
-    <div class="input-time">
+    <div class="contenidoHorarios">
+        <div class="Text">
+            <h1>SELECCIONE SUS DIAS LABORALES</h1>
+        </div>
         <table>
             <tr>
-                <th><p>DESDE:</p></th>
-                <th><input type="time" id="hora" value="08:00" name="horario" class="tiempo"></th>
-                <th><p>HASTA:</p></th>
-                <th><input type="time" id="hora" value="17:00" name="horario" class="tiempo"></th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="lunes" value="lunes">
+                        <label class="form-check-label" for="lunes">L</label>
+                    </div>
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="martes" value="martes">
+                        <label class="form-check-label" for="martes">M</label>
+                    </div>
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="miercoles" value="miercoles">
+                        <label class="form-check-label" for="miercoles">X</label>
+                    </div>                    
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="jueves" value="jueves">
+                        <label class="form-check-label" for="jueves">J</label>
+                    </div>                    
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="viernes" value="viernes">
+                        <label class="form-check-label" for="viernes">V</label>
+                    </div>
+                </th>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="sabado" value="sabado">
+                        <label class="form-check-label" for="sabado">S</label>
+                    </div>
+                </th>
             </tr>
         </table>
+        <div class="horario">
+            <h1>SELECCIONE SUS HORARIOS LABORALES</h1>
+        </div>
+        <div class="input-time">
+            <table>
+                <tr>
+                    <th><p>DESDE:</p></th>
+                    <th><input type="time" id="horaEntrada" value="08:00" name="horario" class="tiempo"></th>
+                    <th><p>HASTA:</p></th>
+                    <th><input type="time" id="horaSalida" value="17:00" name="horario" class="tiempo"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="intervalos">
+            <h2>INTERVALOS ENTRE TURNOS</h2>
+            <input type="number" id="intervaloTurno" value="10" max="60" name="horario" class="tiempo">
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th><button type="button" class="btn-dark" (click)="Guardar()">GUARDAR</button></th>
+                    <th><button type="button" class="btn-dark" (click)="Volver()">VOLVER</button></th>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="intervalos">
-        <h2>INTERVALOS ENTRE TURNOS</h2>
-        <input type="number" id="hora" value="10" max="60" name="horario" class="tiempo">
-    </div>
-    <div>
-        <table>
+</div>
+
+<!--ATENDEMOS TURNOS-->
+<div *ngIf="this.opcion === 'atenderTurno' then atenderTurnos"></div>
+<ng-template #atenderTurnos>
+    <div class="atenderTurnosList">
+        <table border="1">
             <tr>
-                <th><button type="button" class="btn-dark" (click)="Guardar()">GUARDAR</button></th>
-                <th><button type="button" class="btn-dark" (click)="Volver()">VOLVER</button></th>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Dia
+                </th>
+                <th>
+                    Hora
+                </th>
+                <th>
+                    Especialidad
+                </th>
+                <th>
+                    #
+                </th>
+            </tr>
+            <tr *ngFor="let d of this.turnosEnlinea">
+                <th>
+                    {{d.apellidoCliente}}
+                </th>
+                <th>
+                    {{d.nombreCliente}}
+                </th>
+                <th>
+                    {{d.dia}}
+                </th>
+                <th>
+                    {{d.hora}}
+                </th>
+                <th>
+                    {{d.especialidadElejida}}
+                </th>
+                <th>
+                    <button type="button" class="btn-dark" (click)="Atendiendo(d)">Aceptar</button>
+                </th>
             </tr>
         </table>
+        <th><button type="button" class="btn-dark" (click)="Volver()">VOLVER</button></th>
     </div>
-</div>
-<div class="background3" id="mostrarTurnos">
-    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success" (click)="Horarios()"><h4>123123</h4></button>
-        <button type="button" class="btn btn-warning" (click)="Turnos()"><h4>123132</h4></button>
-        <button type="button" class="btn btn-primary" (click)="Atender()"><h4>12312313 Turno</h4></button>
+</ng-template>
+
+<div *ngIf="this.atendiendo == true then atendiendoTurnos"></div>
+<ng-template #atendiendoTurnos>
+    <table class="encuesta">
+        <tr>
+            <th><label>DATOS OBLIGATORIOS:</label></th>
+        <tr>
+        <tr>
+            <th>PESO</th><th><input type="text" id="peso"></th>
+        </tr>
+        <tr>
+            <th>ESTATURA</th><th><input type="text" id="estatura"></th>
+        </tr>
+        <tr>
+            <th>PRESION</th><th><input type="text" id="presion"></th>
+        </tr>
+        <tr>
+            <th>EDAD</th><th><input type="text" id="edad"></th>
+        </tr>
+        <tr>
+            <th>TEMPERATURA CORPORAL</th><th><input type="text" id="temperaturaCorporal"></th>
+        </tr>
+    </table>
+    <br>
+    <table class="encuesta">
+        <tr>
+            <th><label>DATOS OPCIONALES:</label></th>
+        <tr>
+            <th rowspan="2">NOMBRE:<input type="text" id="nombreDOP"></th>
+        </tr>
+        <tr>
+            <th>DATOS:<input type="text" id="datoOP"></th>
+        </tr>
+        <tr>
+            <th>DATOS EXTRA</th>
+        </tr>
+        <tr>
+            <th><input type="text" id="mostrarDato" disabled></th>
+            <th><button type="button" class="btn-success" (click)="AgregarDatoOpcional()">+</button></th>
+        </tr>
+    </table>
+    <br>
+    <table class="encuesta">
+        <br>
+        <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Comentario</span>
+            </div>
+            <textarea id="texto" class="form-control" aria-label="With textarea"></textarea>
+        </div>
+        <br>
+        <tr>
+            <th><button type="button" class="btn-danger" (click)="CerrarEncuesta()">Cerrar</button></th>
+            <th><button type="button" class="btn-dark" (click)="GuardarEncuesta()">Guardar</button></th>
+        </tr>
+    </table>
+</ng-template>
+
+<div *ngIf="this.opcion === 'listaTurnos' then mostrarTurnos"></div>
+<ng-template #mostrarTurnos>
+    <div class="turnosList">
+        <table border="1">
+            <tr>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Dia
+                </th>
+                <th>
+                    Hora
+                </th>
+                <th>
+                    Especialidad
+                </th>
+                <th>
+                    Estado del Turno
+                </th>
+                <th colspan="2">
+                    #
+                </th>
+            </tr>
+            <tr *ngFor="let d of this.turnosEnlinea">
+                <th>
+                    {{d.apellidoCliente}}
+                </th>
+                <th>
+                    {{d.nombreCliente}}
+                </th>
+                <th>
+                    {{d.dia}}
+                </th>
+                <th>
+                    {{d.hora}}
+                </th>
+                <th>
+                    {{d.especialidadElejida}}
+                </th>
+                <th>
+                    {{d.estadoTurno}}
+                </th>
+                <th>
+                    <button type="button" class="btn-dark" (click)="AceptarTurno(d.idTurno)">Aceptar</button>
+                </th>
+                <th>
+                    <button type="button" class="btn-dark" (click)="CancelarTurno(d.idTurno)">Cancelar</button>
+                </th>
+            </tr>
+        </table>
+        <th><button type="button" class="btn-dark" (click)="Volver()">VOLVER</button></th>
     </div>
-    <div>
-        <button type="button" class="btn-dark" (click)="Volver()">VOLVER</button>
-    </div>
-</div>
-<div class="background4" id="mostrarAtencion">
-    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success" (click)="Horarios()"><h4>123123</h4></button>
-        <button type="button" class="btn btn-warning" (click)="Turnos()"><h4>asdasd</h4></button>
-        <button type="button" class="btn btn-primary" (click)="Atender()"><h4>asd5a6s</h4></button>
-    </div>
-    <div>
-        <button type="button" class="btn-dark" (click)="Volver()">VOLVER</button>
-    </div>
-</div>
+</ng-template>
